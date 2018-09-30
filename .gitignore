@@ -1,2 +1,3 @@
 slack-new-channel_*
 .env
+latest-created-channel.json
