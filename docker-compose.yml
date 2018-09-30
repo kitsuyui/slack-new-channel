@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  slack_new_channel:
+    build: .
+    env_file: .env
+    volumes:
+      - store:/var/slack_new_channel
+
+volumes:
+  store: {}
