@@ -1,0 +1,25 @@
+{
+  "id": "BBBBBBBBBB",
+  "name": "new-channels",
+  "is_channel": true,
+  "created": 1234567890,
+  "creator": "AAAAAAAAA",
+  "is_archived": false,
+  "is_general": false,
+  "is_member": true,
+  "members": [
+    "AAAAAAAAA"
+  ],
+  "topic": {
+    "value": "",
+    "creator": "",
+    "last_set": 0
+  },
+  "purpose": {
+    "value": "",
+    "creator": "",
+    "last_set": 0
+  },
+  "previous_names": [],
+  "num_members": 1
+}
