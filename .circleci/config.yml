@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  test:
+    working_directory: /go/src/github.com/kitsuyui/slack-new-channel
+    docker:
+      - image: golang:1.11.0-stretch@sha256:e2c46a7511258f976914b6b5aa69c66f6245db00eed5df406d7b01cb9d0d3af5
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            ./bin/test.sh
+            ./bin/coverage.sh
+            bash <(curl -s https://codecov.io/bash)
+  release:
+    working_directory: /go/src/github.com/kitsuyui/slack-new-channel
+    docker:
+      - image: golang:1.11.0-stretch@sha256:e2c46a7511258f976914b6b5aa69c66f6245db00eed5df406d7b01cb9d0d3af5
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            BUILD_VERSION="$CIRCLE_TAG" ./bin/build.sh
+            mkdir /tmp/releases
+            mv ./build/slack-new-channel_* /tmp/releases
+            ghr -u "$CIRCLE_PROJECT_USERNAME" "$CIRCLE_TAG" /tmp/releases
+      - store_artifacts:
+          path: /tmp/artifacts
+
+workflows:
+  version: 2
+  build_and_release:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
+      - release:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+.\d+$/
