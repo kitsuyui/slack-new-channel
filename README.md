@@ -12,6 +12,8 @@ $ ./slack-new-channel
 ```
 
 And then it reports new channels into incoming-webhooks channel.
+<br>
+<img src="https://user-images.githubusercontent.com/2596972/46255289-35d50b00-c4d6-11e8-88c9-56e01f0053ce.png" width="50%" height="50%" title="Example">
 
 ## Run periodically
 
