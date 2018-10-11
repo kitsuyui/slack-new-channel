@@ -9,4 +9,5 @@ FROM golang:1.8 AS build
 FROM gcr.io/distroless/base
 
   COPY --from=build /go/bin/slack-new-channel /
-  CMD ["/slack-new-channel"]
+  ENTRYPOINT ["/slack-new-channel"]
+  CMD ["--daemon"]
