@@ -2,13 +2,19 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
+	"time"
+
+	"github.com/docopt/docopt-go"
 )
 
 // SlackChannelAPIResponse represents response of this API:
@@ -148,10 +154,7 @@ func SlackPost(username string, icon string, text string, hookurl string) (err e
 	return nil
 }
 
-func main() {
-	token := os.Getenv("SLACK_API_TOKEN")
-	path := os.Getenv("LATEST_CHANNEL_JSON_PATH")
-	hookurl := os.Getenv("SLACK_WEBHOOK_URL")
+func main2(token string, path string, hookurl string) {
 	d, err := GetSlackChannelAPIResponse(token)
 	if err != nil {
 		log.Fatal(err)
@@ -186,4 +189,52 @@ func main() {
 		log.Fatal(err)
 	}
 	ioutil.WriteFile(path, b, 0644)
+}
+
+var interval = flag.Duration("interval", 600*time.Second, "Interval duration.")
+
+func init() {
+	flag.DurationVar(interval, "i", 600*time.Second, "Interval duration.")
+}
+
+func main() {
+	token := os.Getenv("SLACK_API_TOKEN")
+	path := os.Getenv("LATEST_CHANNEL_JSON_PATH")
+	hookurl := os.Getenv("SLACK_WEBHOOK_URL")
+
+	usage := `slack-new-channel
+Usage:
+ slack-new-channel [--daemon]
+Options:
+ -d --daemon  Daemon mode.
+ -i=<duration> --interval=<duration>  Interval [default: 600s].
+ -h --help  Show this screen.
+`
+
+	opts, err := docopt.ParseDoc(usage)
+	if err != nil {
+		fmt.Errorf("Err: %s", err)
+	}
+
+	timeoutStr, err := opts.String("--interval")
+	if err != nil {
+		fmt.Errorf("%s", err)
+	}
+
+	var duration time.Duration
+	f, err := strconv.ParseFloat(timeoutStr, 64)
+	if err != nil {
+		duration, err = time.ParseDuration(timeoutStr)
+		if err != nil {
+			fmt.Errorf("%s", err)
+		}
+	} else {
+		duration = time.Duration(f) * time.Second
+	}
+
+	daemonMode, _ := opts.Bool("--daemon")
+	for daemonMode {
+		main2(token, path, hookurl)
+		time.Sleep(duration)
+	}
 }

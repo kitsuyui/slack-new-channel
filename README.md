@@ -1,5 +1,13 @@
 # slack-new-channel
 
+Report Slack new channel when it has been created.
+
+## Using Docker
+
+```
+$ docker run -e .env -d kitsuyui/slack-new-channel
+```
+
 ## Usage
 
 1. Download latest `slack-new-channel` binary that suits your platform from [release page ](https://github.com/kitsuyui/slack-new-channel/releases/).
@@ -30,9 +38,9 @@ So you must set in cron jobs or daemonize script if you want it runs periodicall
 See .env.sample .
 
 ```console
-$ export LATEST_CHANNEL_JSON_PATH='./latest-created-channel.json'
-$ export SLACK_API_TOKEN='xxxx-1234567890-1234567890-124567890-aaaaaaaaaaaaaaaaaaaaaaaa'
-$ export SLACK_WEBHOOK_URL='https://hooks.slack.com/services/dUmMy/YOuR/HoOkUrLHeRE'
+LATEST_CHANNEL_JSON_PATH=/var/slack_new_channel/latest-created-channel.json
+SLACK_API_TOKEN=xxxx-1234567890-1234567890-124567890-aaaaaaaaaaaaaaaaaaaaaaaa
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/dUmMy/YOuR/HoOkUrLHeRE
 ```
 
 ## Build
