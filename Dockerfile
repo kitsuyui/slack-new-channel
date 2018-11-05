@@ -1,4 +1,4 @@
-FROM golang:1.8 AS build
+FROM golang:1.11 AS build
 
   WORKDIR /go/src/slack-new-channel
   COPY . .
