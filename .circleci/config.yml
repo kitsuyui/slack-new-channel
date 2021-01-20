@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: /go/src/github.com/kitsuyui/slack-new-channel
     docker:
-      - image: golang:1.14.13-stretch@sha256:823bab1144d20e9e2fe9313deb0c4b67fd7577a640718319dbf09a63b6674f0e
+      - image: golang:1.14.14-stretch@sha256:7326ec5e7d96e39002262b552d20639ee0ba8eb590f705483ae8cc91bebb8deb
     steps:
       - checkout
       - setup_remote_docker
@@ -15,7 +15,7 @@ jobs:
   release:
     working_directory: /go/src/github.com/kitsuyui/slack-new-channel
     docker:
-      - image: golang:1.14.13-stretch@sha256:823bab1144d20e9e2fe9313deb0c4b67fd7577a640718319dbf09a63b6674f0e
+      - image: golang:1.14.14-stretch@sha256:7326ec5e7d96e39002262b552d20639ee0ba8eb590f705483ae8cc91bebb8deb
     steps:
       - checkout
       - setup_remote_docker
